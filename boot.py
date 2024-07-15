@@ -19,8 +19,8 @@ class BootUSB:
         self.UBOOT_INITRDADDR = 0x13000000
         self.DDR_FILE = 'usbbl2runpara_ddrinit.bin'
         self.FIP_FILE = 'usbbl2runpara_runfipimg.bin'
-        self.BL2_FILE = 'u-boot.bin.usb.bl2'
-        self.TPL_FILE = 'u-boot.bin.usb.tpl'
+        self.BL2_FILE = 'Tow-Boot.noenv.usb.bl2'
+        self.TPL_FILE = 'Tow-Boot.noenv.usb.tpl'
 
         # GXBB/GXL/GXM params
         if board in gx_boards:

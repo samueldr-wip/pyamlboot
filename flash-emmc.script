@@ -1,0 +1,40 @@
+# NOTE: this has been changed to flash to the eMMC!
+
+#if sf probe; then
+
+	echo "Read new firmware. Reading existing firmware."
+	setexpr filesize *$fdt_addr_r \& ffffffff
+	#if sf read $kernel_addr_r 0 0x$filesize; then
+	#	echo "Read existing firmware."
+	#	if cmp.b $kernel_addr_r $ramdisk_addr_r 0x$filesize; then
+	#		echo "Firmware matches. No update needed."
+	#	else
+			#echo "Firmware does not match. Erasing existing firmware. Do not power off!"
+			echo "Force flashing to eMMC"
+			if mmc erase 1 +0x$filesize; then
+				echo "Writing new firmware. Do not power off!"
+				#  mmc write addr         blk# cnt
+				echo mmc write $ramdisk_addr_r 0 0x$filesize
+				if mmc write $ramdisk_addr_r 0 0x$filesize; then
+					#echo "Erasing old environment."
+					#if mmc erase 0x00ff0000 0x10000; then
+						echo "Finished writing new firmware. The board can be safely powered off."
+					#else
+					#	echo "Erasing old environment failed!"
+					#fi
+				else
+					echo "Writing new firmware failed!"
+				fi
+			else
+				echo "Erasing existing firmware failed!"
+			fi
+	#	fi
+	#else
+	#	echo "Reading existing firmware failed!"
+	#fi
+
+#else
+#	echo "Unable to detect firmware storage."
+#fi
+sleep 31536000
+
